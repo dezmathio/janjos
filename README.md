@@ -8,7 +8,7 @@ Personal site for [janjos.lol](https://janjos.lol). Astro, TypeScript, Tailwind,
 2. Fill in the frontmatter. `status` is `idea`, `prototype`, `active`, `live`, `archived`, or `research`. `kind` is `experiment`, `tool`, `product`, or `research`. Set `featured: true` for the main grid. Set `scratch: true` for one-offs that belong under Scratch. Archived entries land in Footnotes.
 3. Write whatever body sections you have. Skip the rest. Useful headings: The idea, Why I built it, How it works, Interesting engineering problems, What I learned, Current state.
 4. Drop screenshots in `public/projects/your-slug/` and reference them from the markdown as `/projects/your-slug/shot.png`.
-5. Push to `main`. GitHub Actions builds and deploys.
+5. Push to `master`. GitHub Actions builds and deploys.
 
 Activity is manual. Edit `src/content/activity/log.json` and add an object with a unique `id`.
 
