@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../utils/projects';
+---
+
+<BaseLayout title="About" description="Josiah Anjos. Software in Burke, VA.">
+  <article class="max-w-3xl">
+    <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">About</h1>
+    <div class="mt-8 space-y-5 text-xl leading-7 sm:text-2xl sm:leading-8">
+      <p>
+        I'm Josiah Anjos. I live in Burke, VA. I write software for work, and I
+        build small things on the side.
+      </p>
+      <p>
+        This site is notes on that work. Chewsr is the one that has a real
+        domain. The rest can be unfinished, paused, or already done. If a page
+        is short, that is as far as it got.
+      </p>
+      <p>
+        One-off scripts sit on the scratch shelf on the homepage. They run
+        locally. They are not products.
+      </p>
+    </div>
+    <p class="mt-8 text-xl sm:text-2xl">
+      <a href={SITE.github} rel="noreferrer" target="_blank">GitHub</a>
+      <span class="mx-3 text-mute">·</span>
+      <a href={`${import.meta.env.BASE_URL}resume.pdf`}>Resume</a>
+    </p>
+  </article>
+</BaseLayout>

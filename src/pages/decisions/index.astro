@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DecisionList from '../../components/DecisionList.astro';
+import { byDateDesc } from '../../utils/projects';
+
+const decisions = (await getCollection('decisions')).sort(byDateDesc);
+const projects = await getCollection('projects');
+const projectTitles = Object.fromEntries(projects.map((project) => [project.id, project.data.title]));
+---
+
+<BaseLayout
+  title="Decisions"
+  description="Why something was built a certain way. The tradeoffs, not the changelog."
+>
+  <section class="max-w-3xl">
+    <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Decisions</h1>
+    <p class="mt-4 text-xl text-mute">
+      Why something was built a certain way. Not a changelog. The constraint that
+      forced the shape.
+    </p>
+  </section>
+
+  {
+    decisions.length > 0 ? (
+      <div class="mt-12">
+        <DecisionList decisions={decisions} projectTitles={projectTitles} />
+      </div>
+    ) : (
+      <p class="mt-12 text-xl text-mute">Nothing written down yet.</p>
+    )
+  }
+</BaseLayout>

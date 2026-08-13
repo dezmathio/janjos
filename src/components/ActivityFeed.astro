@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import { byDateDesc, formatYear } from '../utils/projects';
+
+const entries = (await getCollection('activity')).sort(byDateDesc);
+---
+
+{
+  entries.length > 0 && (
+    <section class="mt-20" id="activity">
+      <h2 class="text-base font-medium tracking-tight text-mute">Activity</h2>
+      <p class="mt-1 text-base text-mute">
+        Handwritten for now. No heatmap, no APIs.
+      </p>
+      <ol class="mt-6 divide-y divide-line border-y border-line">
+        {entries.map((entry) => (
+          <li class="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8">
+            <span class="shrink-0 text-base text-mute">{formatYear(entry.data.date)}</span>
+            <div>
+              {entry.data.href ? (
+                <a href={entry.data.href} class="text-base font-medium no-underline hover:text-mute">
+                  {entry.data.title}
+                </a>
+              ) : (
+                <p class="text-base font-medium">{entry.data.title}</p>
+              )}
+              {entry.data.summary && (
+                <p class="mt-1 text-base text-mute">{entry.data.summary}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}

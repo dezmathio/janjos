@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import TagFilter from '../components/TagFilter.astro';
+import ActivityFeed from '../components/ActivityFeed.astro';
+import { isFootnote, isScratch, kindLabel, sortBench, uniqueKinds } from '../utils/projects';
+
+const all = await getCollection('projects');
+const bench = sortBench(all.filter((project) => !isFootnote(project) && !isScratch(project)));
+const scratch = sortBench(all.filter(isScratch));
+const footnotes = sortBench(all.filter(isFootnote));
+const filters = uniqueKinds(bench).map((kind) => ({
+  value: kind,
+  label: kindLabel(kind),
+}));
+const count = all.length;
+---
+
+<BaseLayout>
+  <section class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Josiah Lab</h1>
+      <p class="mt-3 text-lg text-mute sm:text-xl">
+        A collection of experiments, products, and research.
+      </p>
+    </div>
+    <p
+      class="shrink-0 self-start rounded-full border border-line px-4 py-2 text-sm text-mute"
+    >
+      {count} {count === 1 ? 'Experiment' : 'Experiments'}
+    </p>
+  </section>
+
+  <section class="mt-10">
+    <TagFilter filters={filters} />
+    <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+      {bench.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <div class="mt-14 flex justify-center">
+    <a
+      href="#activity"
+      class="flex h-11 w-11 items-center justify-center rounded-full border border-line text-mute no-underline hover:text-ink"
+      aria-label="More below"
+    >
+      ↓
+    </a>
+  </div>
+
+  <ActivityFeed />
+
+  {
+    scratch.length > 0 && (
+      <section class="mt-20">
+        <h2 class="text-base font-medium tracking-tight text-mute">Scratch</h2>
+        <p class="mt-1 max-w-2xl text-base text-mute">
+          One-offs and scripts that live locally. Not on the main grid. Click
+          through if you want the notes.
+        </p>
+        <div class="mt-6 grid grid-cols-1 gap-4">
+          {scratch.map((project) => (
+            <ProjectCard project={project} compact />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    footnotes.length > 0 && (
+      <section class="mt-20">
+        <h2 class="text-base font-medium tracking-tight text-mute">Footnotes</h2>
+        <p class="mt-1 text-base text-mute">
+          Stopped, sunsetted, or folded into something else.
+        </p>
+        <div class="mt-6 grid grid-cols-1 gap-4">
+          {footnotes.map((project) => (
+            <ProjectCard project={project} compact />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

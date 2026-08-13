@@ -1,0 +1,41 @@
+---
+import { formatYear, type Decision } from '../utils/projects';
+
+interface Props {
+  decisions: Decision[];
+  projectTitles?: Record<string, string>;
+}
+
+const { decisions, projectTitles = {} } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<ol class="divide-y divide-line border-y border-line">
+  {
+    decisions.map((decision) => {
+      const projectId = decision.data.project;
+      const projectTitle = projectId ? projectTitles[projectId] : undefined;
+      return (
+        <li class="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8">
+          <span class="shrink-0 text-base text-mute">{formatYear(decision.data.date)}</span>
+          <div>
+            <a
+              href={`${base}decisions/${decision.id}`}
+              class="text-base font-medium no-underline hover:text-mute"
+            >
+              {decision.data.title}
+            </a>
+            <p class="mt-1 text-base text-mute">{decision.data.summary}</p>
+            {projectId && projectTitle && (
+              <p class="mt-2 text-sm text-mute">
+                <a href={`${base}projects/${projectId}`} class="no-underline hover:text-ink">
+                  {projectTitle}
+                </a>
+              </p>
+            )}
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>

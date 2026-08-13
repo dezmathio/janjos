@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import DecisionList from '../../components/DecisionList.astro';
+import { decisionsForProject, formatYear, type Project } from '../../utils/projects';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, subtitle, description, status, tags, repo, demo, notes, date } =
+  project.data;
+const related = decisionsForProject(await getCollection('decisions'), project.id);
+---
+
+<BaseLayout title={title} description={description}>
+  <article>
+    <p class="text-base">
+      <a href={import.meta.env.BASE_URL} class="text-mute no-underline hover:text-ink">Lab</a>
+      <span class="text-mute"> / </span>
+      <span>{title}</span>
+    </p>
+    <div class="mt-5">
+      <StatusBadge status={status} />
+    </div>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+    <p class="mt-3 text-xl text-mute">{subtitle}</p>
+    <p class="mt-3 text-base text-mute">{formatYear(date)}</p>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-mute">{description}</p>
+    <div class="mt-8 flex flex-wrap gap-5 text-base">
+      {
+        demo && (
+          <a href={demo} rel="noreferrer" target="_blank">
+            Visit →
+          </a>
+        )
+      }
+      {
+        repo && (
+          <a href={repo} rel="noreferrer" target="_blank">
+            GitHub
+          </a>
+        )
+      }
+      {
+        notes && (
+          <a href={notes} rel="noreferrer" target="_blank">
+            Notes
+          </a>
+        )
+      }
+    </div>
+    <div class="mt-5 flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <span class="rounded-full border border-line px-3 py-1 text-sm capitalize text-mute">{tag}</span>
+      ))}
+    </div>
+    <div class="prose mt-10">
+      <Content />
+    </div>
+  </article>
+  {
+    related.length > 0 && (
+      <section class="mt-16 max-w-3xl">
+        <h2 class="text-base font-medium tracking-tight text-mute">Decisions</h2>
+        <p class="mt-1 text-base text-mute">Why this was shaped the way it was.</p>
+        <div class="mt-6">
+          <DecisionList decisions={related} />
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "janjos-v1",
+    "date": "2026-08-12",
+    "title": "Stood up Josiah Lab on this domain",
+    "summary": "Static Astro site, markdown projects, no backend. The notebook is the product for now.",
+    "href": "/"
+  },
+  {
+    "id": "cut-list-scan",
+    "date": "2026-08-12",
+    "title": "Cut list on yesterday's Delta Force recordings",
+    "summary": "Local OpenCV and Tesseract. A text file of timestamps so editing is not a memory test.",
+    "href": "/projects/cut-list"
+  },
+  {
+    "id": "delta-force-ocr",
+    "date": "2026-08-11",
+    "title": "Local OCR experiments for Delta Force footage",
+    "summary": "Trying to read the screen instead of waiting on someone to type the intel.",
+    "href": "/projects/delta-force-map-tracker"
+  },
+  {
+    "id": "age-of-the-terminal-playable",
+    "date": "2026-02-13",
+    "title": "Age of the Terminal became playable in a browser",
+    "summary": "A small Conan-themed text RPG. Complete loop, unofficial fan game.",
+    "href": "/projects/age-of-the-terminal"
+  },
+  {
+    "id": "errday-pivot",
+    "date": "2026-03-07",
+    "title": "err.day folded toward Chewsr",
+    "summary": "The nutrition tracker paused. The 'what should we eat' question moved into group decisions.",
+    "href": "/projects/err-day"
+  }
+]

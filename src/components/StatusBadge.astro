@@ -1,0 +1,15 @@
+---
+import { statusLabel, type Status } from '../utils/projects';
+
+interface Props {
+  status: Status;
+}
+
+const { status } = Astro.props;
+---
+
+<span
+  class="inline-flex items-center rounded-full border border-line px-3 py-1 text-sm leading-none text-mute"
+>
+  {statusLabel(status)}
+</span>

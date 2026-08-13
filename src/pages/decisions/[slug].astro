@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatYear, type Decision } from '../../utils/projects';
+
+export async function getStaticPaths() {
+  const decisions = await getCollection('decisions');
+  const projects = await getCollection('projects');
+  const titleById = Object.fromEntries(projects.map((project) => [project.id, project.data.title]));
+
+  return decisions.map((decision) => ({
+    params: { slug: decision.id },
+    props: {
+      decision,
+      projectTitle: decision.data.project ? titleById[decision.data.project] : undefined,
+    },
+  }));
+}
+
+interface Props {
+  decision: Decision;
+  projectTitle?: string;
+}
+
+const { decision, projectTitle } = Astro.props;
+const { Content } = await render(decision);
+const { title, summary, date, project } = decision.data;
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={title} description={summary}>
+  <article class="max-w-3xl">
+    <p class="text-base">
+      <a href={`${base}decisions`} class="text-mute no-underline hover:text-ink">Decisions</a>
+      <span class="text-mute"> / </span>
+      <span>{title}</span>
+    </p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+    <p class="mt-4 text-xl text-mute">{summary}</p>
+    <p class="mt-6 text-base text-mute">
+      {formatYear(date)}
+      {
+        project && projectTitle && (
+          <>
+            <span> · </span>
+            <a href={`${base}projects/${project}`} class="no-underline hover:text-ink">
+              {projectTitle}
+            </a>
+          </>
+        )
+      }
+    </p>
+    <div class="prose prose-note mt-10">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

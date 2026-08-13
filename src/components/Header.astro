@@ -1,0 +1,77 @@
+---
+import { SITE } from '../utils/projects';
+
+const base = import.meta.env.BASE_URL;
+const path = Astro.url.pathname;
+const labActive = path === base || path.startsWith(`${base}projects/`);
+const decisionsActive = path === `${base}decisions` || path.startsWith(`${base}decisions/`);
+const aboutActive = path === `${base}about` || path.startsWith(`${base}about/`);
+---
+
+<header class="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur">
+  <div class="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 sm:px-10">
+    <a href={base} class="text-base font-semibold tracking-tight no-underline">
+      {SITE.name}
+    </a>
+    <nav class="flex items-center gap-6 text-base">
+      <a
+        href={base}
+        class:list={['no-underline hover:text-ink', labActive ? 'text-ink' : 'text-mute']}
+      >
+        Lab
+      </a>
+      <a
+        href={`${base}decisions`}
+        class:list={['no-underline hover:text-ink', decisionsActive ? 'text-ink' : 'text-mute']}
+      >
+        Decisions
+      </a>
+      <a
+        href={`${base}about`}
+        class:list={['no-underline hover:text-ink', aboutActive ? 'text-ink' : 'text-mute']}
+      >
+        About
+      </a>
+      <a
+        href={SITE.github}
+        class="text-mute no-underline hover:text-ink"
+        rel="noreferrer"
+        target="_blank"
+      >
+        GitHub
+      </a>
+      <a
+        href={`${base}resume.pdf`}
+        class="text-mute no-underline hover:text-ink"
+      >
+        Resume
+      </a>
+      <button
+        type="button"
+        id="theme-toggle"
+        class="rounded-full border border-line px-3 py-1.5 text-sm text-mute hover:text-ink"
+        aria-label="Toggle color theme"
+      >
+        Theme
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const key = 'janjos-theme';
+  const button = document.getElementById('theme-toggle');
+
+  function currentDark(): boolean {
+    return document.documentElement.classList.contains('dark');
+  }
+
+  function apply(dark: boolean) {
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem(key, dark ? 'dark' : 'light');
+  }
+
+  button?.addEventListener('click', () => {
+    apply(!currentDark());
+  });
+</script>
