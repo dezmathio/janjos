@@ -16,6 +16,7 @@ scratch: true
 ## The idea
 
 I got tired of opening the same careers pages to see if anything new dropped. jtrack fetches the public ATS feeds, compares them to yesterday's snapshot, and prints the delta.
+It also helps visualize the pace in which companies are opening or closing roles.
 
 ## How it works
 

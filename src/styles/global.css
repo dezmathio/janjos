@@ -105,6 +105,14 @@ a {
   color: var(--accent);
 }
 
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  margin-top: 1.25rem;
+}
+
 .prose code {
   font-size: 0.9em;
   background: color-mix(in srgb, var(--line) 70%, transparent);
@@ -130,4 +138,23 @@ a {
 .prose-note {
   font-size: 1.25rem;
   line-height: 1.75;
+}
+
+.prose pre.mermaid,
+.prose .mermaid,
+.prose .mermaid-diagram {
+  overflow-x: auto;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem 1.15rem;
+  margin-top: 1.5rem;
+}
+
+.prose .mermaid svg,
+.prose .mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-inline: auto;
 }

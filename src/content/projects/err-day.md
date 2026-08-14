@@ -25,10 +25,12 @@ I wanted a daily object I would actually open. Most health apps punish you for b
 
 You tap breakfast, lunch, dinner, and a few habits. Portions were sizes, not grams. There was a settings page, billing experiments, the usual product clothing on a personal tool.
 
+![err.day nutrition tracking](/projects/err-day/nutrition.gif)
+
 ## What I learned
 
-The question I kept returning to was not "did I log Tuesday." It was "what should we eat." That question is social. Chewsr is where it went.
+I learned that it's a very fun problem to solve, but the space is immensely crowded, and was not sure that my personal favorite way to track was going to take off over more avant garde stuff like CalAI, etc. 
 
 ## Current state
 
-Archived. Paused on purpose, not abandoned in shame. The domain still exists. The work folded toward Chewsr.
+Archived. Paused on purpose, not abandoned in shame. The domain still exists. Pivoted toward Chewsr.

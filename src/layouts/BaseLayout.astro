@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import MermaidInit from '../components/MermaidInit.astro';
 import { SITE } from '../utils/projects';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const { title, description = SITE.description } = Astro.props;
-const pageTitle = title ? `${title} · ${SITE.name}` : SITE.name;
+const pageTitle = title ? `${title} · ${SITE.author}` : SITE.author;
 ---
 
 <!doctype html>
@@ -34,8 +35,10 @@ const pageTitle = title ? `${title} · ${SITE.name}` : SITE.name;
           var stored = localStorage.getItem('janjos-theme');
           var dark = stored ? stored === 'dark' : true;
           document.documentElement.classList.toggle('dark', dark);
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
         } catch {
           document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>
@@ -46,7 +49,8 @@ const pageTitle = title ? `${title} · ${SITE.name}` : SITE.name;
       <slot />
     </main>
     <footer class="mx-auto w-full max-w-6xl px-6 pb-12 text-base text-mute sm:px-10">
-      <p>{SITE.name} · {SITE.domain}</p>
+      <p>{SITE.author} · {SITE.domain}</p>
     </footer>
+    <MermaidInit />
   </body>
 </html>

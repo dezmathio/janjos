@@ -1,13 +1,15 @@
 ---
-title: The Lambda path was a dead end for three weeks
-summary: OTC affiliate feed needed fresh Amazon images and links every 24 hours. Company docs pointed at Lambda. The PA-API SDK would not run there. I moved the job to ECS and shipped it in about a week.
+title: Docs are not enough
+summary: I was working on USNews's OTC pages, and adding amazon affiliate links and images required some 24 hour constraint to pull new images and not cache them over that, so I built that out, following the companys previously made confluence page for amazon paapi sdk + aws lambda, well it turns out whoever had written that documentation had forgotten to mention that that sdk was incompatible with lambda, so i had to pivot after I thought work was nearly done to move it all to an ecs task. 
 date: 2024-06-01
 ---
 
-U.S. News had a pharmacist-curated OTC catalog, CVS and Amazon. Amazon's terms wanted the image and the link refreshed inside 24 hours. Nobody on product had really spelled that out before I was in the middle of building it.
+I was working on US News's OTC pages, pharmacist-curated catalog, CVS and Amazon. Adding Amazon affiliate links and images had this 24 hour constraint where you had to pull new images and not cache them past that, which I found out in the middle of building it, not before.
 
-The house way to run jobs was Lambda. I followed that for about three weeks. Then it was obvious the Product Advertising API SDK just did not work in Lambda. Later someone who knew the docs told me that path was never going to work for this pipeline. Would have been nice to know first.
+The company already had a Confluence page for the Amazon PA-API SDK plus AWS Lambda, so I followed that. I spent about three weeks on it and thought the work was nearly done.
 
-ECS could run the SDK. I rewrote the job onto that and got it out in about a week. The feed still had to keep updating either way.
+Well, it turns out whoever wrote that documentation forgot to mention that the SDK was incompatible with Lambda. Later someone who actually knew those docs told me that path was never going to work for this pipeline.
 
-We were supposed to do a postmortem. It never happened. What I kept: spike the weird Amazon path before burning weeks on the "standard" setup.
+I had to pivot and move it all to an ECS task, which took about a week, but we got the images and links refreshing the way Amazon actually required.
+
+TL;DR: don't blindly trust documentation, verify the dependencies and workflows before building everything out and spinning your wheels.

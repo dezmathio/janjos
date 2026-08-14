@@ -3,28 +3,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../utils/projects';
 ---
 
-<BaseLayout title="About" description="Josiah Anjos. Software in Burke, VA.">
-  <article class="max-w-3xl">
+<BaseLayout title="About" description="Josiah Anjos. Currently in Burke, VA. Building software since I was a teenager.">
+  <article>
     <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">About</h1>
-    <div class="mt-8 space-y-5 text-xl leading-7 sm:text-2xl sm:leading-8">
-      <p>
-        I'm Josiah Anjos. I live in Burke, VA. I write software for work, and I
-        build small things on the side.
-      </p>
-      <p>
-        This site is notes on that work. Chewsr is the one that has a real
-        domain. The rest can be unfinished, paused, or already done. If a page
-        is short, that is as far as it got.
-      </p>
-      <p>
-        One-off scripts sit on the scratch shelf on the homepage. They run
-        locally. They are not products.
-      </p>
+    <div class="mt-8 flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-12">
+      <div class="max-w-2xl">
+        <div class="space-y-5 text-xl leading-7 sm:text-2xl sm:leading-8">
+          <p>
+            I'm Josiah Anjos, currently in Burke, VA. I grew up in Portugal.
+            Married, soon to be a dad. I've been building software since I was a
+            teenager.
+          </p>
+          <p>
+            I worked up the ranks from Automation Engineer to Software Engineer to
+            Senior Full Stack Software Engineer. Constantly being thrown into the
+            unknown and coming out with a solution.
+          </p>
+          <p>
+            One-off scripts sit on the scratch shelf on the homepage. They run
+            locally. They are not products.
+          </p>
+        </div>
+        <p class="mt-8 text-xl sm:text-2xl">
+          <a href={SITE.github} rel="noreferrer" target="_blank">GitHub</a>
+          <span class="mx-3 text-mute">·</span>
+          <a href={`${import.meta.env.BASE_URL}resume.pdf`}>Resume</a>
+        </p>
+      </div>
+      <img
+        src={`${import.meta.env.BASE_URL}about.png`}
+        alt="Josiah Anjos in Sintra, Portugal"
+        class="w-full max-w-sm shrink-0 rounded-card border border-line md:w-72 lg:w-80"
+      />
     </div>
-    <p class="mt-8 text-xl sm:text-2xl">
-      <a href={SITE.github} rel="noreferrer" target="_blank">GitHub</a>
-      <span class="mx-3 text-mute">·</span>
-      <a href={`${import.meta.env.BASE_URL}resume.pdf`}>Resume</a>
-    </p>
   </article>
 </BaseLayout>

@@ -1,8 +1,8 @@
 ---
-title: Conan GeoGuessr
-subtitle: Pin the shot on a map you already live in
+title: Conan Exiles GeoGuessr
+subtitle: Guess where the image is on the map
 description: A GeoGuessr-style experiment using Conan Exiles landscapes instead of Google Street View.
-status: active
+status: live
 kind: experiment
 date: 2026-02-01
 updated: 2026-02-22
@@ -11,28 +11,24 @@ tags:
   - conan
   - maps
 featured: true
+repo: https://github.com/dezmathio/conan_exiles_geoguessr
+demo: https://dezmathio.github.io/conan_exiles_geoguessr/
 ---
 
 ## The idea
+
+Inspired by the ARK Geoguessr that came out, I figured I would make a similar version for Conan Exiles. 
 
 GeoGuessr, except the world is Conan Exiles. You get a view of the landscape and you try to pin where you are standing.
 
 ## Why I built it
 
-I have spent enough time in that map that landmarks started to feel like a language. I wanted to see if that knowledge was real or just vibes. A guessing game is a blunt way to find out.
+I have way too many hours in conan exiles, so I know the maps super well, and figured I could make them weird enough that people find it fun to play a geoguessr version of it with obscure spots.
 
 ## How it works
 
-A round shows you a view. You drop a pin. Distance is the score. The interesting part is which biomes and structures are actually readable once you have lived in them.
-
-## Interesting engineering problems
-
-The map has to be fair. Too close to a unique landmark and the round is trivia. Too much generic dirt and it is noise. Picking views is more of the design than the pin UI.
-
-## What I learned
-
-Fan games get more interesting when they test a skill the community already has. This is not a general geography product. It is a joke that turned out to have a mechanic.
+It plays similar to geoguessr except you are not in google street view walking the area, it's just a screenshot of the location, and they have to place a pin on the map to guess where it is.
 
 ## Current state
 
-Active experiment. Playable enough to argue about. Not dressed up as a launch.
+Live at [dezmathio.github.io/conan_exiles_geoguessr](https://dezmathio.github.io/conan_exiles_geoguessr/). Unofficial fan game.

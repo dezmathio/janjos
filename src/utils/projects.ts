@@ -16,6 +16,7 @@ export type Kind = 'experiment' | 'tool' | 'product' | 'research';
 
 export const SITE = {
   name: 'Josiah Lab',
+  author: 'Josiah Anjos',
   domain: 'janjos.lol',
   url: 'https://janjos.lol',
   github: 'https://github.com/dezmathio',
@@ -46,6 +47,9 @@ export function byDateDesc(a: { data: { date: Date } }, b: { data: { date: Date 
 
 export function sortBench(projects: Project[]): Project[] {
   return [...projects].sort((a, b) => {
+    if (Boolean(a.data.pin) !== Boolean(b.data.pin)) {
+      return a.data.pin ? -1 : 1;
+    }
     if (Boolean(a.data.featured) !== Boolean(b.data.featured)) {
       return a.data.featured ? -1 : 1;
     }

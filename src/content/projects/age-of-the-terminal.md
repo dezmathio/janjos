@@ -21,21 +21,13 @@ A small text RPG that looks like a terminal. Hyborian Age dressing, parser comma
 
 ## Why I built it
 
-I wanted a complete loop I could finish, not an engine. Parser games are a good constraint. If the verbs are few and the map is small, it either plays or it doesn't.
+I wanted to dabble in TypeScript and was feeling nostalgic about my first programming language, Turbo Pascal. I stumbled upon a YT video from HuwsTube talking about old text based games, so I figured I would take that throwback and make something Conan themed, since I was checking out Conan Exiles again at the time. 
 
 ## How it works
 
-Commands like `go north`, `take torch`, `inventory`, `wield sword`, `open door`. Inventory is a bag plus equipped slots. Light matters. The brass key is not optional.
+Commands like `go north`, `take torch`, `inventory`, `wield sword`, `open door`. Inventory is a bag plus equipped slots. check the repo for more info
 
-TypeScript and Vite. No framework. That was the point.
-
-## Interesting engineering problems
-
-A parser that feels fair is harder than a parser that exists. Unknown verbs need a response that teaches, not a shrug. The map is tiny on purpose so the verbs can stay honest.
-
-## What I learned
-
-Shipping a tiny game is a different muscle from shipping a tool. The loop has to close. "I will add combat later" is how these stay in a folder.
+TypeScript and Vite. No framework.
 
 ## Current state
 

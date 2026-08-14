@@ -33,9 +33,19 @@ npm run preview
 
 ## Deploy
 
-GitHub Pages via `.github/workflows/deploy.yml`. In the repo, set Pages source to GitHub Actions.
+GitHub Pages via `.github/workflows/deploy.yml` on push to `master`. Pages source is GitHub Actions.
 
-`public/CNAME` points at `janjos.lol`. `astro.config.mjs` uses `site: 'https://janjos.lol'` and `base: '/'`. If you serve this as `https://<user>.github.io/janjos/` without the custom domain, set `base: '/janjos/'`.
+`public/CNAME` is `janjos.lol`. `astro.config.mjs` uses `site: 'https://janjos.lol'` and `base: '/'`. If you serve this as `https://<user>.github.io/janjos/` without the custom domain, set `base: '/janjos/'`.
+
+Namecheap Advanced DNS for `janjos.lol` (delete parking / URL Redirect records for `@` and `www` first):
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `dezmathio.github.io` |
 
 ## Layout
 

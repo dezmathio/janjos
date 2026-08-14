@@ -15,7 +15,7 @@ scratch: true
 
 ## The idea
 
-Some job posts are a cry for a small tool. "Data entry" plus "construction", "dispatcher" plus "fleet". boring runs those queries in a batch so I can skim what companies are hiring for the boring work.
+Some job posts are a cry for a small tool. "Data entry" plus "construction", "dispatcher" plus "fleet". boring runs those queries in a batch so I can skim what companies are hiring for the boring work. The idea behind it was to find job postings for manual work that had keywords of things that were automation friendly, for potential software pitches.
 
 ## How it works
 

@@ -1,9 +1,13 @@
 ---
-title: Search kept showing the logo
-summary: WeddingWire vendors had good photos, but search showed a logo or a random profile shot. We used ClarifAI so a beachfront filter actually came back with a beachfront picture.
+title: Keyword Search + Showing relevant images
+summary: WeddingWire vendors had good photos, but search showed a logo or a random profile shot. We used ClarifAI so a beachfront filter actually came back with a beachfront picture that the vendor had.
 date: 2016-06-01
 ---
 
-WeddingWire vendors had really good photos, but search didn't use them. You'd hit a filter like beachfront and get the company logo, or some random picture off the profile.
+WeddingWire vendors had really great photos, but our product always just showed their profile pictures or spotlight pictures they selected. When a bride would search for venues and filter by something like beachfront, the results would still just show that same profile pic.
 
-This was product's idea. I built it with Bernabas. I did the Elasticsearch mapping and the search UI, and I knew how the ClarifAI tagging worked. Each filter had a synonym list. ClarifAI looked at a photo and gave you a label and a confidence score. If it was high enough, that photo is what showed up in the results instead of the logo.
+The Product team came up w/ the idea to build something like this, and the data science team integrated ClarifAI and made a pass on all images to give them confidence scores.
+
+With that info, working with Bernabas, we built a product that essentially took our filters, hooked a list of synonyms to each filter type, then checked against ClarifAI to see what the confidence levels were for each synonym on those images, creating a mapping index using Elasticsearch.
+
+It was my first time using Elasticsearch & the learning curve was real, but we got a really nice working product that raised the bar for what a good feature could look like.
