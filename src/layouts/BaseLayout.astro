@@ -12,6 +12,8 @@ interface Props {
 
 const { title, description = SITE.description } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.author}` : SITE.author;
+const canonical = new URL(Astro.url.pathname, SITE.url);
+const shareImage = new URL('about.png', SITE.url);
 ---
 
 <!doctype html>
@@ -21,8 +23,18 @@ const pageTitle = title ? `${title} · ${SITE.author}` : SITE.author;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="any" />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon.png`} sizes="32x32" />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:alt" content="Josiah Anjos in Sintra, Portugal" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={shareImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
