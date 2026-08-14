@@ -4,12 +4,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import TagFilter from '../components/TagFilter.astro';
 import ActivityFeed from '../components/ActivityFeed.astro';
-import { isFootnote, isScratch, kindLabel, sortBench, uniqueKinds } from '../utils/projects';
+import { isScratch, kindLabel, sortBench, uniqueKinds } from '../utils/projects';
 
 const all = await getCollection('projects');
-const bench = sortBench(all.filter((project) => !isFootnote(project) && !isScratch(project)));
+const bench = sortBench(all.filter((project) => !isScratch(project)));
 const scratch = sortBench(all.filter(isScratch));
-const footnotes = sortBench(all.filter(isFootnote));
 const filters = uniqueKinds(bench).map((kind) => ({
   value: kind,
   label: kindLabel(kind),
@@ -83,22 +82,6 @@ const count = all.length;
         </p>
         <div class="mt-6 grid grid-cols-1 gap-4">
           {scratch.map((project) => (
-            <ProjectCard project={project} compact />
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  {
-    footnotes.length > 0 && (
-      <section class="mt-20">
-        <h2 class="text-base font-medium tracking-tight text-mute">Footnotes</h2>
-        <p class="mt-1 text-base text-mute">
-          Stopped, sunsetted, or folded into something else.
-        </p>
-        <div class="mt-6 grid grid-cols-1 gap-4">
-          {footnotes.map((project) => (
             <ProjectCard project={project} compact />
           ))}
         </div>
