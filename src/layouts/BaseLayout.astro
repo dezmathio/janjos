@@ -52,5 +52,15 @@ const pageTitle = title ? `${title} · ${SITE.author}` : SITE.author;
       <p>{SITE.author} · {SITE.domain}</p>
     </footer>
     <MermaidInit />
+    {
+      import.meta.env.PROD && (
+        <script
+          is:inline
+          data-goatcounter="https://dezmathio.goatcounter.com/count"
+          async
+          src="https://gc.zgo.at/count.js"
+        ></script>
+      )
+    }
   </body>
 </html>
