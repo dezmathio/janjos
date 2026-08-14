@@ -20,6 +20,9 @@ export const SITE = {
   domain: 'janjos.lol',
   url: 'https://janjos.lol',
   github: 'https://github.com/dezmathio',
+  twitter: 'https://x.com/dezmathio',
+  email: 'dezmathio@gmail.com',
+  discord: 'https://discord.gg/Rfetrryfp',
   description:
     'Personal R&D lab and engineering notebook. Experiments, tools, and the occasional product.',
 } as const;
