@@ -10,6 +10,8 @@ tags:
   - youtube
   - chrome-extension
   - rails
+featured: true
+pin: true
 demo: https://chromewebstore.google.com/detail/ytc-copy-youtube-transcri/bodkfiaicfaoblnefjfmkdcbaijfeike?hl=en
 ---
 

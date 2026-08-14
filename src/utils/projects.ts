@@ -27,10 +27,6 @@ export const SITE = {
     'Personal R&D lab and engineering notebook. Experiments, tools, and the occasional product.',
 } as const;
 
-export function isFootnote(project: Project): boolean {
-  return project.data.status === 'archived';
-}
-
 export function isScratch(project: Project): boolean {
   return Boolean(project.data.scratch) && project.data.status !== 'archived';
 }
