@@ -1,5 +1,12 @@
 [
   {
+    "id": "chewsr-stars-atlas",
+    "date": "2026-09-03",
+    "title": "Shipped the chewsr \u00d7 3\u2605 atlas",
+    "summary": "Michelin 3\u2605 restaurants on a globe, with videos. First MapLibre experiment, live on chewsr.",
+    "href": "/projects/chewsr-stars"
+  },
+  {
     "id": "janjos-v1",
     "date": "2026-08-12",
     "title": "Stood up Josiah Lab on this domain",
