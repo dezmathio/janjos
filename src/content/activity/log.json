@@ -1,5 +1,12 @@
 [
   {
+    "id": "erate-explorer-opened",
+    "date": "2026-09-25",
+    "title": "Opened erate-explorer",
+    "summary": "Public USAC filings into DuckDB. Jev is the gate. GitHub, not a hosted auditor.",
+    "href": "/projects/erate-explorer"
+  },
+  {
     "id": "chewsr-stars-atlas",
     "date": "2026-09-03",
     "title": "Shipped the chewsr \u00d7 3\u2605 atlas",
