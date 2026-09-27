@@ -24,9 +24,8 @@ export const SITE = {
   email: 'dezmathio@gmail.com',
   discord: 'https://discord.gg/Rfetrryfp',
   chewsr: 'https://chewsr.com',
-  // PENDING: paste the full LinkedIn profile URL. Empty means it is left out of
-  // the JSON-LD and the hmu links.
-  linkedin: '',
+  // Shown in the hmu links and the JSON-LD sameAs. Empty would hide both.
+  linkedin: 'https://www.linkedin.com/in/dezmathio',
   // PENDING: job title for the Person JSON-LD. Empty means it is left out.
   jobTitle: '',
   knowsAbout: ['Ruby on Rails', 'Python', 'AI agents'],
