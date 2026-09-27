@@ -26,8 +26,8 @@ export const SITE = {
   chewsr: 'https://chewsr.com',
   // Shown in the hmu links and the JSON-LD sameAs. Empty would hide both.
   linkedin: 'https://www.linkedin.com/in/dezmathio',
-  // PENDING: job title for the Person JSON-LD. Empty means it is left out.
-  jobTitle: '',
+  // Job title for the Person JSON-LD. Empty would leave it out.
+  jobTitle: 'Senior Full Stack Software Engineer',
   knowsAbout: ['Ruby on Rails', 'Python', 'AI agents'],
   description:
     'Personal R&D lab and engineering notebook. Experiments, tools, and the occasional product.',
