@@ -1,0 +1,32 @@
+---
+// Hidden easter egg: press ` (backtick) on any page for a Matrix terminal,
+// Quake console style. Each page ships only this small inline listener, so it
+// costs no request. The terminal file is fetched with import() on the first
+// press. Comments live up here so they stay out of the HTML.
+//
+// data-matrix on <html> marks the terminal as open. The listener sets it
+// right away, so a second press before the file arrives counts as a close.
+import terminalUrl from '../scripts/matrix-terminal.js?url';
+---
+
+<script is:inline define:vars={{ terminalUrl }}>
+  let terminal;
+  const root = document.documentElement;
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== '`' || event.repeat) return;
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    const target = event.target;
+    if (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+
+    const opening = !root.hasAttribute('data-matrix');
+    if (opening) event.preventDefault();
+    root.toggleAttribute('data-matrix', opening);
+
+    terminal ??= import(terminalUrl);
+    terminal.then((t) => (opening ? t.open() : t.close())).catch(() => {
+      terminal = undefined;
+      root.removeAttribute('data-matrix');
+    });
+  });
+</script>
