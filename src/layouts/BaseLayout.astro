@@ -1,4 +1,6 @@
 ---
+import '@fontsource-variable/inter';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Hmu from '../components/Hmu.astro';
@@ -47,12 +49,7 @@ const person = {
     <meta property="og:image:alt" content="Josiah Anjos in Sintra, Portugal" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={shareImage} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     <title>{pageTitle}</title>
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
     <script is:inline>
