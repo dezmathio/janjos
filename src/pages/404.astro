@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found" description="That page is not here. The Lab still is." noindex>
+  <section class="max-w-3xl">
+    <p class="text-base text-mute">404</p>
+    <h1 class="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">Nothing here</h1>
+    <p class="mt-4 text-xl text-mute">
+      This page does not exist. Either it moved, or it was an experiment that
+      never made it out of the lab.
+    </p>
+    <p class="mt-8 text-xl">
+      <a href={`${import.meta.env.BASE_URL}#lab`}>Back to the Lab</a>
+    </p>
+  </section>
+</BaseLayout>

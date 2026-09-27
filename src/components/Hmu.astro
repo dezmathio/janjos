@@ -14,6 +14,14 @@ const { compact = false } = Astro.props;
     <a href={SITE.discord} rel="noreferrer" target="_blank">discord</a>
     <span class="mx-3 text-mute">·</span>
     <a href={SITE.twitter} rel="noreferrer" target="_blank">x</a>
+    {
+      SITE.linkedin && (
+        <>
+          <span class="mx-3 text-mute">·</span>
+          <a href={SITE.linkedin} rel="noreferrer" target="_blank">linkedin</a>
+        </>
+      )
+    }
     <span class="mx-3 text-mute">·</span>
     <a href={`mailto:${SITE.email}`}>email</a>
   </p>
