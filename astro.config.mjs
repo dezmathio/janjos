@@ -10,6 +10,9 @@ export default defineConfig({
   site: 'https://janjos.lol',
   base: '/',
   output: 'static',
+  // Astro emits foo/index.html, so every internal URL ends in a slash and
+  // GitHub Pages never has to 301 to add one.
+  trailingSlash: 'always',
   integrations: [
     mermaid({
       theme: 'neutral',
