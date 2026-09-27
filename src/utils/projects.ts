@@ -103,3 +103,7 @@ export function formatYear(date: Date): string {
 export function decisionsForProject(decisions: Decision[], projectId: string): Decision[] {
   return decisions.filter((decision) => decision.data.project === projectId).sort(byDateDesc);
 }
+
+export function hasMermaid(body: string | undefined): boolean {
+  return /^\s*(```|~~~)\s*mermaid\b/m.test(body ?? '');
+}

@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import DecisionList from '../../components/DecisionList.astro';
-import { decisionsForProject, formatYear, type Project } from '../../utils/projects';
+import { decisionsForProject, formatYear, hasMermaid, type Project } from '../../utils/projects';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -24,7 +24,7 @@ const { title, subtitle, description, status, tags, repo, demo, notes, date } =
 const related = decisionsForProject(await getCollection('decisions'), project.id);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} mermaid={hasMermaid(project.body)}>
   <article>
     <p class="text-base">
       <a href={import.meta.env.BASE_URL} class="text-mute no-underline hover:text-ink">Lab</a>
