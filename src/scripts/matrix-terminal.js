@@ -12,30 +12,30 @@ export const LINES = [
 ];
 
 const GREEN = '#00ff41';
-const RAIN_MS = 1800;
+const FADE_MS = 900; // page fades to black
+const BLINK_MS = 1060; // one on/off cycle of the cursor
+const PRE_BLINKS = 3; // empty-cursor blinks before typing; it lights a 4th time as typing starts
 const HOLD_MS = 1800; // how long a finished line stays before it clears
 const GAP_MS = 500; // blank beat between lines
-const RAIN_GLYPHS =
-  'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789';
 
 const CSS = `
 .mt-root{position:fixed;inset:0;z-index:2147483647;background:#000;color:${GREEN};
 font:clamp(1.05rem,2.4vw,1.6rem)/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-text-shadow:0 0 6px rgba(0,255,65,.55);outline:none;overflow:hidden}
-.mt-rain{position:absolute;inset:0;width:100%;height:100%;transition:opacity .9s ease}
-.mt-rain.mt-dim{opacity:.14}
-.mt-text{position:relative;margin:0;padding:clamp(1.5rem,6vw,4rem);white-space:pre-wrap}
+text-shadow:0 0 6px rgba(0,255,65,.55);outline:none;overflow:hidden;
+opacity:0;transition:opacity ${FADE_MS}ms ease}
+.mt-root.mt-in{opacity:1}
+.mt-text{margin:0;padding:clamp(1.5rem,6vw,4rem);white-space:pre-wrap}
 .mt-line{min-height:1.6em}
 .mt-cursor{display:inline-block;width:.6em;height:1.1em;margin-left:.08em;vertical-align:-.15em;
 background:${GREEN};box-shadow:0 0 8px rgba(0,255,65,.6)}
-.mt-blink{animation:mt-blink 1.06s step-end infinite}
+.mt-blink{animation:mt-blink ${BLINK_MS}ms step-end infinite}
 @keyframes mt-blink{50%{opacity:0}}
 .mt-hint{position:absolute;right:1rem;bottom:.75rem;padding:.25rem .5rem;border:0;background:none;
 color:rgba(0,255,65,.45);font:inherit;font-size:.75rem;text-shadow:none;cursor:pointer}
 .mt-hint:hover,.mt-hint:focus-visible{color:${GREEN}}
 .mt-hint:focus-visible{outline:1px solid ${GREEN};outline-offset:2px}
 .mt-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media (prefers-reduced-motion:reduce){.mt-blink{animation:none}.mt-rain{transition:none}}
+@media (prefers-reduced-motion:reduce){.mt-root{transition:none}.mt-blink{animation:none}}
 `;
 
 /**
@@ -45,7 +45,6 @@ color:rgba(0,255,65,.45);font:inherit;font-size:.75rem;text-shadow:none;cursor:p
  * @property {string} restoreOverflow
  * @property {string} restorePadding
  * @property {Set<number>} timers
- * @property {number} frame
  * @property {Array<() => void>} cleanup
  */
 
@@ -81,56 +80,13 @@ function later(/** @type {Session} */ s, /** @type {number} */ ms, /** @type {()
   s.timers.add(id);
 }
 
-function startRain(/** @type {Session} */ s, /** @type {HTMLCanvasElement} */ canvas) {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  const size = 16;
-  /** @type {number[]} */
-  let drops = [];
-
-  const resize = () => {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.floor(window.innerWidth * dpr);
-    canvas.height = Math.floor(window.innerHeight * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.font = `${size}px ui-monospace, Menlo, Consolas, monospace`;
-    const columns = Math.ceil(window.innerWidth / size);
-    // Start each column a little above the screen at a random height so the
-    // rain pours in instead of dropping as one flat sheet.
-    drops = Array.from({ length: columns }, (_, i) => drops[i] ?? -Math.random() * 12);
-  };
-  resize();
-  window.addEventListener('resize', resize);
-  s.cleanup.push(() => window.removeEventListener('resize', resize));
-
-  let last = 0;
-  /** @param {number} now */
-  const tick = (now) => {
-    s.frame = requestAnimationFrame(tick);
-    if (now - last < 33) return; // about 30 fps, chunky like the film
-    last = now;
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-    for (let i = 0; i < drops.length; i++) {
-      const y = drops[i] * size;
-      if (y > 0) {
-        const glyph = RAIN_GLYPHS[Math.floor(Math.random() * RAIN_GLYPHS.length)];
-        ctx.fillStyle = Math.random() < 0.08 ? '#d7ffe0' : GREEN;
-        ctx.fillText(glyph, i * size, y);
-      }
-      if (y > window.innerHeight && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-  };
-  s.frame = requestAnimationFrame(tick);
-}
-
 /**
- * Plays LINES one at a time in the same spot, like the film: type (or show)
- * a line, hold it with a blinking cursor, clear, pause, next. The last line
- * stays until close. With reduced motion every line appears whole.
+ * The Neo-monitor scene: an empty cursor blinks PRE_BLINKS times, then LINES
+ * play one at a time in the same spot: type (or show) a line, hold it with a
+ * blinking cursor, clear, pause, next. The last line stays until close. With
+ * reduced motion the cursor holds still and every line appears whole.
  */
-function playLines(
+function play(
   /** @type {Session} */ s,
   /** @type {HTMLElement} */ text,
   /** @type {HTMLElement} */ cursor,
@@ -140,6 +96,7 @@ function playLines(
   const typed = document.createTextNode('');
   const line = el('div', 'mt-line');
   line.append(typed, cursor);
+  cursor.classList.add('mt-blink');
   text.replaceChildren(line);
   let lineIndex = 0;
 
@@ -179,12 +136,10 @@ function playLines(
       if (ch === ' ' && Math.random() < 0.15) delay += 140;
       later(s, delay, step);
     };
-    // A blinking beat before the first line; later lines already had the gap.
-    if (lineIndex > 0) step();
-    else later(s, 600, step);
+    step();
   };
 
-  show();
+  later(s, PRE_BLINKS * BLINK_MS, show);
 }
 
 export function open() {
@@ -204,8 +159,6 @@ export function open() {
   desc.id = 'mt-desc';
   desc.textContent = LINES.map((l) => l.text).join(' ');
 
-  const canvas = el('canvas', 'mt-rain');
-  canvas.setAttribute('aria-hidden', 'true');
   const text = el('div', 'mt-text');
   text.setAttribute('aria-hidden', 'true');
   const cursor = el('span', 'mt-cursor');
@@ -215,7 +168,7 @@ export function open() {
   hint.textContent = 'esc to exit';
   hint.addEventListener('click', close);
 
-  root.append(canvas, text, desc, hint);
+  root.append(text, desc, hint);
 
   const body = document.body;
   const scrollbar = window.innerWidth - document.documentElement.clientWidth;
@@ -226,7 +179,6 @@ export function open() {
     restoreOverflow: body.style.overflow,
     restorePadding: body.style.paddingRight,
     timers: new Set(),
-    frame: 0,
     cleanup: [],
   };
   session = s;
@@ -251,17 +203,11 @@ export function open() {
   document.addEventListener('keydown', onKey);
   s.cleanup.push(() => document.removeEventListener('keydown', onKey));
 
-  if (reduced) {
-    canvas.remove();
-    playLines(s, text, cursor, true);
-    return;
-  }
-
-  startRain(s, canvas);
-  later(s, RAIN_MS, () => {
-    canvas.classList.add('mt-dim');
-    later(s, 500, () => playLines(s, text, cursor, false));
-  });
+  // Fade to black (instant under reduced motion), then start the scene.
+  void root.offsetWidth; // commit opacity 0 so the fade runs
+  root.classList.add('mt-in');
+  if (reduced) play(s, text, cursor, true);
+  else later(s, FADE_MS, () => play(s, text, cursor, false));
 }
 
 export function close() {
@@ -269,7 +215,6 @@ export function close() {
   if (!s) return;
   session = null;
 
-  cancelAnimationFrame(s.frame);
   for (const id of s.timers) clearTimeout(id);
   s.timers.clear();
   for (const fn of s.cleanup) fn();
