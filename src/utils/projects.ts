@@ -32,6 +32,10 @@ export const SITE = {
   knowsAbout: ['Ruby on Rails', 'Python', 'AI agents'],
   description:
     'Personal R&D lab and engineering notebook. Experiments, tools, and the occasional product.',
+  // PENDING: homepage meta description. Stitched from copy already on the site
+  // until the real wording is decided. This one string is the whole change.
+  homeDescription:
+    'Josiah Anjos. Currently in Burke, VA, building software since I was a teenager. Personal R&D lab: experiments, tools, and the occasional product.',
 } as const;
 
 export function isScratch(project: Project): boolean {
