@@ -1,4 +1,6 @@
 ---
+import '@fontsource-variable/inter';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Hmu from '../components/Hmu.astro';
@@ -8,12 +10,26 @@ import { SITE } from '../utils/projects';
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
+  /** Set when the page content has a ```mermaid block. */
+  mermaid?: boolean;
 }
 
-const { title, description = SITE.description } = Astro.props;
+const { title, description = SITE.description, noindex = false, mermaid = false } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.author}` : SITE.author;
 const canonical = new URL(Astro.url.pathname, SITE.url);
 const shareImage = new URL('about.png', SITE.url);
+
+// jobTitle and linkedin stay out until they are filled in SITE.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.author,
+  url: SITE.url,
+  ...(SITE.jobTitle ? { jobTitle: SITE.jobTitle } : {}),
+  sameAs: [SITE.github, SITE.twitter, SITE.chewsr, SITE.linkedin].filter(Boolean),
+  knowsAbout: SITE.knowsAbout,
+};
 ---
 
 <!doctype html>
@@ -26,7 +42,7 @@ const shareImage = new URL('about.png', SITE.url);
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="any" />
     <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon.png`} sizes="32x32" />
     <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -35,13 +51,9 @@ const shareImage = new URL('about.png', SITE.url);
     <meta property="og:image:alt" content="Josiah Anjos in Sintra, Portugal" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={shareImage} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     <title>{pageTitle}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
     <script is:inline>
       (function () {
         try {
@@ -65,7 +77,7 @@ const shareImage = new URL('about.png', SITE.url);
       <p>{SITE.author} · {SITE.domain}</p>
       <Hmu compact />
     </footer>
-    <MermaidInit />
+    {mermaid && <MermaidInit />}
     {
       import.meta.env.PROD && (
         <script

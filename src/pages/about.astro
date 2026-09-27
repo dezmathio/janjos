@@ -1,5 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import headshot from '../assets/about.jpg';
 import Hmu from '../components/Hmu.astro';
 import { SITE } from '../utils/projects';
 ---
@@ -32,10 +34,17 @@ import { SITE } from '../utils/projects';
         </p>
         <Hmu />
       </div>
-      <img
-        src={`${import.meta.env.BASE_URL}about.png`}
+      <Picture
+        src={headshot}
         alt="Josiah Anjos in Sintra, Portugal"
-        class="w-full max-w-sm shrink-0 rounded-card border border-line md:w-72 lg:w-80"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        width={384}
+        height={384}
+        widths={[320, 384, 640, 768]}
+        sizes="(min-width: 1024px) 320px, (min-width: 768px) 288px, min(calc(100vw - 3rem), 384px)"
+        loading="eager"
+        class="h-auto w-full max-w-sm shrink-0 rounded-card border border-line md:w-72 lg:w-80"
       />
     </div>
   </article>

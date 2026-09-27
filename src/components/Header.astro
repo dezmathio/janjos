@@ -4,8 +4,8 @@ import { SITE } from '../utils/projects';
 const base = import.meta.env.BASE_URL;
 const path = Astro.url.pathname;
 const labActive = path === base || path.startsWith(`${base}projects/`);
-const decisionsActive = path === `${base}decisions` || path.startsWith(`${base}decisions/`);
-const aboutActive = path === `${base}about` || path.startsWith(`${base}about/`);
+const decisionsActive = path.startsWith(`${base}decisions/`);
+const aboutActive = path.startsWith(`${base}about/`);
 ---
 
 <header class="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur">
@@ -28,13 +28,13 @@ const aboutActive = path === `${base}about` || path.startsWith(`${base}about/`);
         Lab
       </a>
       <a
-        href={`${base}decisions`}
+        href={`${base}decisions/`}
         class:list={['no-underline hover:text-ink', decisionsActive ? 'text-ink' : 'text-mute']}
       >
         Decisions
       </a>
       <a
-        href={`${base}about`}
+        href={`${base}about/`}
         class:list={['no-underline hover:text-ink', aboutActive ? 'text-ink' : 'text-mute']}
       >
         About

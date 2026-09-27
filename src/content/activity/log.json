@@ -4,14 +4,14 @@
     "date": "2026-09-25",
     "title": "Opened erate-explorer",
     "summary": "Public USAC filings into DuckDB. Jev is the gate. GitHub, not a hosted auditor.",
-    "href": "/projects/erate-explorer"
+    "href": "/projects/erate-explorer/"
   },
   {
     "id": "chewsr-stars-atlas",
     "date": "2026-09-03",
     "title": "Shipped the chewsr \u00d7 3\u2605 atlas",
     "summary": "Michelin 3\u2605 restaurants on a globe, with videos. First MapLibre experiment, live on chewsr.",
-    "href": "/projects/chewsr-stars"
+    "href": "/projects/chewsr-stars/"
   },
   {
     "id": "janjos-v1",
@@ -25,34 +25,34 @@
     "date": "2026-08-12",
     "title": "Cut list on yesterday's Delta Force recordings",
     "summary": "Local OpenCV and Tesseract. A text file of timestamps so editing is not a memory test.",
-    "href": "/projects/cut-list"
+    "href": "/projects/cut-list/"
   },
   {
     "id": "delta-force-ocr",
     "date": "2026-08-11",
     "title": "Local OCR experiments for Delta Force footage",
     "summary": "Trying to read the screen instead of waiting on someone to type the intel.",
-    "href": "/projects/delta-force-map-tracker"
+    "href": "/projects/delta-force-map-tracker/"
   },
   {
     "id": "film-props-scenes",
     "date": "2026-03-04",
     "title": "Web based film props scenes on a local Vite set",
     "summary": "Fullscreen fake terminals. Cylon uplink, a cop-show search, a password crack animations.",
-    "href": "/projects/film-props"
+    "href": "/projects/film-props/"
   },
   {
     "id": "age-of-the-terminal-playable",
     "date": "2026-02-13",
     "title": "Age of the Terminal became playable in a browser",
     "summary": "A small Conan-themed text RPG. Complete loop, unofficial fan game.",
-    "href": "/projects/age-of-the-terminal"
+    "href": "/projects/age-of-the-terminal/"
   },
   {
     "id": "errday-pivot",
     "date": "2026-03-07",
     "title": "err.day folded toward Chewsr",
     "summary": "The nutrition tracker paused. The 'what should we eat' question moved into group decisions.",
-    "href": "/projects/err-day"
+    "href": "/projects/err-day/"
   }
 ]

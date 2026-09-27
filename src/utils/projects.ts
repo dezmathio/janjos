@@ -23,8 +23,17 @@ export const SITE = {
   twitter: 'https://x.com/dezmathio',
   email: 'dezmathio@gmail.com',
   discord: 'https://discord.gg/Rfetrryfp',
+  chewsr: 'https://chewsr.com',
+  // Shown in the hmu links and the JSON-LD sameAs. Empty would hide both.
+  linkedin: 'https://www.linkedin.com/in/dezmathio',
+  // Job title for the Person JSON-LD. Empty would leave it out.
+  jobTitle: 'Senior Full Stack Software Engineer',
+  knowsAbout: ['Ruby on Rails', 'Python', 'AI agents'],
   description:
     'Personal R&D lab and engineering notebook. Experiments, tools, and the occasional product.',
+  // Homepage meta description.
+  homeDescription:
+    'Josiah Anjos, Senior Full Stack Software Engineer. A lab of experiments, tools, and products, including chewsr.com.',
 } as const;
 
 export function isScratch(project: Project): boolean {
@@ -91,4 +100,8 @@ export function formatYear(date: Date): string {
 
 export function decisionsForProject(decisions: Decision[], projectId: string): Decision[] {
   return decisions.filter((decision) => decision.data.project === projectId).sort(byDateDesc);
+}
+
+export function hasMermaid(body: string | undefined): boolean {
+  return /^\s*(```|~~~)\s*mermaid\b/m.test(body ?? '');
 }
