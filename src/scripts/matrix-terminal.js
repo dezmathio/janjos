@@ -3,16 +3,18 @@
 // imports this file by URL on the first press, so it never loads with a page.
 // It is plain JS (types via JSDoc) because Vite ships ?url imports as-is.
 
-/** Edit these to change what the terminal types. */
+/** Shown one at a time in this order; `instant` lines appear whole instead of typing. */
 export const LINES = [
-  'Wake up, Neo...',
-  'The Matrix has you...',
-  'Follow the white rabbit.',
-  'Knock, knock, Neo.',
+  { text: 'Wake up, Neo...' },
+  { text: 'The Matrix has you...' },
+  { text: 'Follow the white rabbit.' },
+  { text: 'Knock, knock, Neo.', instant: true },
 ];
 
 const GREEN = '#00ff41';
 const RAIN_MS = 1800;
+const HOLD_MS = 1800; // how long a finished line stays before it clears
+const GAP_MS = 500; // blank beat between lines
 const RAIN_GLYPHS =
   'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789';
 
@@ -123,52 +125,66 @@ function startRain(/** @type {Session} */ s, /** @type {HTMLCanvasElement} */ ca
   s.frame = requestAnimationFrame(tick);
 }
 
-/** Types every line one character at a time, then leaves a blinking cursor. */
-function typeLines(
+/**
+ * Plays LINES one at a time in the same spot, like the film: type (or show)
+ * a line, hold it with a blinking cursor, clear, pause, next. The last line
+ * stays until close. With reduced motion every line appears whole.
+ */
+function playLines(
   /** @type {Session} */ s,
   /** @type {HTMLElement} */ text,
   /** @type {HTMLElement} */ cursor,
+  /** @type {boolean} */ reduced,
 ) {
+  // One line element for the whole sequence: its text node, then the cursor.
+  const typed = document.createTextNode('');
+  const line = el('div', 'mt-line');
+  line.append(typed, cursor);
+  text.replaceChildren(line);
   let lineIndex = 0;
-  let charIndex = 0;
 
-  // Each line is a text node followed by the cursor, which moves down with it.
-  const newLine = () => {
-    const line = el('div', 'mt-line');
-    line.append(document.createTextNode(''), cursor);
-    text.append(line);
-  };
+  const show = () => {
+    const { text: content, instant = false } = LINES[lineIndex];
+    const last = lineIndex === LINES.length - 1;
 
-  const step = () => {
-    const current = LINES[lineIndex];
-    if (charIndex < current.length) {
-      const ch = current[charIndex++];
-      /** @type {Text} */ (cursor.previousSibling).appendData(ch);
+    const hold = () => {
+      cursor.classList.add('mt-blink');
+      if (last) return;
+      later(s, HOLD_MS, () => {
+        typed.data = '';
+        lineIndex++;
+        later(s, GAP_MS, show);
+      });
+    };
+
+    if (instant || reduced) {
+      typed.data = content;
+      hold();
+      return;
+    }
+
+    let charIndex = 0;
+    const step = () => {
+      if (charIndex >= content.length) {
+        hold();
+        return;
+      }
+      cursor.classList.remove('mt-blink'); // solid while typing
+      const ch = content[charIndex++];
+      typed.appendData(ch);
       // Human-ish rhythm: uneven keystrokes, a beat after punctuation.
       let delay = 45 + Math.random() * 90;
       if (ch === ',') delay += 180;
-      if (ch === '.' && current[charIndex] === '.') delay += 120;
+      if (ch === '.' && content[charIndex] === '.') delay += 120;
       if (ch === ' ' && Math.random() < 0.15) delay += 140;
       later(s, delay, step);
-      return;
-    }
-    lineIndex++;
-    charIndex = 0;
-    cursor.classList.add('mt-blink');
-    if (lineIndex >= LINES.length) return;
-    later(s, 900 + Math.random() * 500, () => {
-      cursor.classList.remove('mt-blink');
-      newLine();
-      later(s, 250, step);
-    });
+    };
+    // A blinking beat before the first line; later lines already had the gap.
+    if (lineIndex > 0) step();
+    else later(s, 600, step);
   };
 
-  newLine();
-  cursor.classList.add('mt-blink');
-  later(s, 600, () => {
-    cursor.classList.remove('mt-blink');
-    step();
-  });
+  show();
 }
 
 export function open() {
@@ -186,7 +202,7 @@ export function open() {
   // Screen readers get the whole message at once instead of per keystroke.
   const desc = el('p', 'mt-sr');
   desc.id = 'mt-desc';
-  desc.textContent = LINES.join(' ');
+  desc.textContent = LINES.map((l) => l.text).join(' ');
 
   const canvas = el('canvas', 'mt-rain');
   canvas.setAttribute('aria-hidden', 'true');
@@ -237,19 +253,14 @@ export function open() {
 
   if (reduced) {
     canvas.remove();
-    for (const content of LINES) {
-      const line = el('div', 'mt-line');
-      line.textContent = content;
-      text.append(line);
-    }
-    text.lastElementChild?.append(cursor);
+    playLines(s, text, cursor, true);
     return;
   }
 
   startRain(s, canvas);
   later(s, RAIN_MS, () => {
     canvas.classList.add('mt-dim');
-    later(s, 500, () => typeLines(s, text, cursor));
+    later(s, 500, () => playLines(s, text, cursor, false));
   });
 }
 
