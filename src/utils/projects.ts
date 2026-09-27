@@ -23,6 +23,13 @@ export const SITE = {
   twitter: 'https://x.com/dezmathio',
   email: 'dezmathio@gmail.com',
   discord: 'https://discord.gg/Rfetrryfp',
+  chewsr: 'https://chewsr.com',
+  // PENDING: paste the full LinkedIn profile URL. Empty means it is left out of
+  // the JSON-LD and the hmu links.
+  linkedin: '',
+  // PENDING: job title for the Person JSON-LD. Empty means it is left out.
+  jobTitle: '',
+  knowsAbout: ['Ruby on Rails', 'Python', 'AI agents'],
   description:
     'Personal R&D lab and engineering notebook. Experiments, tools, and the occasional product.',
 } as const;
