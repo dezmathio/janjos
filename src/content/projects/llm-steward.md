@@ -19,9 +19,9 @@ repo: https://github.com/dezmathio/llm-steward
 
 ## How it works
 
-LiteLLM is the gateway. A guardrail checks each prompt for personal info before it reaches a model. The gateway logs each request to Postgres. A dashboard shows that traffic. Evals run test prompts through the gateway and score the answers against per-category thresholds. A Cursor hook in `integrations/cursor-hook/` checks each prompt for personal info before it leaves the editor.
+LiteLLM is the gateway. A Presidio guardrail checks prompts for personal info before they reach a model. Each team can turn it on. `guardrails/custom_recognizers.py` adds recognizers for employee IDs, project codes, and internal IP addresses. `guardrails/custom_callback_handler.py` logs each request to Postgres. A FastAPI dashboard in `dashboard/` shows that traffic. Evals in `evals/` run test prompts through the gateway and score the answers against the per-category thresholds in `evals/thresholds.yaml`. A Cursor hook in `integrations/cursor-hook/` checks each prompt for personal info before it leaves the editor. The hook uses the same Presidio rules as the gateway.
 
-**Stack:** LiteLLM, Postgres.
+**Stack:** LiteLLM, Presidio, Python, FastAPI, Postgres, Docker Compose.
 
 ## Current state
 
