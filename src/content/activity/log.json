@@ -1,5 +1,26 @@
 [
   {
+    "id": "errday-a11y-opened",
+    "date": "2026-10-21",
+    "title": "Opened the err.day storefront accessibility check",
+    "summary": "Store URL in, Playwright scan on my PC, a report I read before it goes out. Not a compliance guarantee.",
+    "href": "/projects/errday-a11y/"
+  },
+  {
+    "id": "llm-steward-opened",
+    "date": "2026-09-27",
+    "title": "Opened llm-steward",
+    "summary": "A self-hostable LLM gateway kit on LiteLLM. Personal-info guardrail, a Postgres dashboard, evals, a Cursor hook.",
+    "href": "/projects/llm-steward/"
+  },
+  {
+    "id": "phi-gateway-opened",
+    "date": "2026-09-27",
+    "title": "Opened phi-gateway",
+    "summary": "Presidio scrubs synthetic patient notes before storage and again at a LiteLLM gateway. A demo, not a HIPAA certification.",
+    "href": "/projects/phi-gateway/"
+  },
+  {
     "id": "erate-explorer-opened",
     "date": "2026-09-25",
     "title": "Opened erate-explorer",
